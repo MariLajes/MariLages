@@ -38,12 +38,12 @@ export default function Products() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {products.map((product, index) => {
+          {products.map((product) => {
             const Icon = product.icon;
             return (
               <div
-                key={index}
-                data-testid={`product-card-${index}`}
+                key={product.title}
+                data-testid={`product-card-${product.title}`}
                 className="p-8 bg-white rounded-lg border border-neutral-200 hover:shadow-lg transition-shadow"
               >
                 <div className="mb-6">
@@ -58,9 +58,9 @@ export default function Products() {
                 <p className="text-neutral-600 mb-6">{product.description}</p>
 
                 <ul className="space-y-2">
-                  {product.features.map((feature, idx) => (
+                  {product.features.map((feature) => (
                     <li
-                      key={idx}
+                      key={feature}
                       className="flex items-center gap-2 text-neutral-700"
                     >
                       <span className="w-2 h-2 bg-orange-500 rounded-full" />

@@ -79,9 +79,9 @@ export default function Gallery() {
           </button>
 
           <div className="flex justify-center gap-2 mt-6">
-            {galleryItems.map((_, index) => (
+            {galleryItems.map((item, index) => (
               <button
-                key={index}
+                key={item.title}
                 onClick={() => setCurrentIndex(index)}
                 aria-label={`Ir para imagem ${index + 1}`}
                 className={`w-3 h-3 rounded-full transition-colors ${
