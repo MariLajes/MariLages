@@ -72,6 +72,8 @@ yarn build
 
 Gera arquivos otimizados em `frontend/build/` prontos para deploy estático em qualquer servidor (Vercel, Netlify, GitHub Pages, S3, etc.).
 
+> 🚀 **Para publicar o site online:** veja [`docs/DEPLOY.md`](./docs/DEPLOY.md) — o projeto já vem com **deploy automático para GitHub Pages** configurado via GitHub Actions.
+
 ---
 
 ## ✏️ Como atualizar informações da empresa
@@ -158,6 +160,7 @@ https://wa.me/5561982480654?text=<mensagem-encoded>
 
 Para detalhes técnicos consulte a pasta [`docs/`](./docs/):
 
+- **[Deploy](./docs/DEPLOY.md)** — 🚀 como publicar o site (GitHub Pages, Vercel, Netlify, Cloudflare)
 - **[Arquitetura](./docs/ARCHITECTURE.md)** — visão geral, fluxo de dados e decisões de design
 - **[Componentes](./docs/COMPONENTS.md)** — responsabilidades, props e `data-testid`s
 - **[Configuração](./docs/CONFIGURATION.md)** — Tailwind, craco, paleta, fontes e env
