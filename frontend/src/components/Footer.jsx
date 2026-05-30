@@ -90,7 +90,11 @@ export default function Footer() {
           {/* Social */}
           <div>
             <h4 className="font-semibold mb-4 text-white">Redes Sociais</h4>
-            <div className="flex gap-3">
+              <a>
+                href="#"
+                aria-label="Em Breve"
+              </a>
+            {/* <div className="flex gap-3">
               <a
                 href="#"
                 aria-label="Facebook"
@@ -112,7 +116,7 @@ export default function Footer() {
               >
                 <Linkedin size={18} />
               </a>
-            </div>
+            </div>*/}
           </div>
         </div>
 
