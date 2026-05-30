@@ -44,35 +44,67 @@ Não há backend próprio — todas as ações de contato abrem o WhatsApp via l
 
 ## 🚀 Rodando o projeto localmente
 
-### Pré-requisitos
-- **Node.js** ≥ 18
-- **Yarn** (clássico ou 1.x) — `npm install -g yarn`
-
-### Passos
+A forma mais simples — **um único comando Python** que cuida de tudo:
 
 ```bash
-# 1. Clone o repositório
-git clone https://github.com/KurokawaBr/MariLagesSite.git
-cd MariLagesSite/frontend
-
-# 2. Instale as dependências
-yarn install
-
-# 3. Inicie o servidor de desenvolvimento
-yarn start
+python app.py
 ```
 
-O site abre em **http://localhost:3000** com hot-reload.
+O script `app.py` (Python puro, sem dependências):
+
+1. ✅ Verifica se todos os arquivos do projeto estão no lugar
+2. ✅ Verifica Node.js e Yarn
+3. ✅ Instala dependências se for a primeira vez (`yarn install`)
+4. ✅ Gera o build se ainda não existir (`yarn build`)
+5. ✅ Abre o site em **http://localhost:8000**
+
+### Modos disponíveis
+
+```bash
+python app.py              # auto-detecta (local ou serve)
+python app.py local        # roda local (porta 8000)
+python app.py local --port 3000   # porta customizada
+python app.py serve        # produção (usa $PORT) — Railway/Render/Heroku
+python app.py pages        # prepara /docs/ para GitHub Pages
+python app.py check        # apenas valida arquivos
+python app.py local --force       # força rebuild
+```
+
+### Alternativa — somente o React (sem Python)
+
+Se preferir usar o dev server do React com **hot-reload**:
+
+```bash
+cd frontend
+yarn install
+yarn start            # abre em http://localhost:3000
+```
+
+### Pré-requisitos
+
+- **Python 3.8+** (para o `app.py`)
+- **Node.js 18+** + **Yarn 1.x** (para o build do React)
+
+```bash
+# Instalar Yarn caso não tenha
+npm install -g yarn
+```
 
 ### Build de produção
 
+Forma simples (com o bootstrap):
 ```bash
-yarn build
+python app.py local --force      # gera build em frontend/build/ e serve
+python app.py pages              # gera build e copia para /docs/ (GitHub Pages)
 ```
 
-Gera arquivos otimizados em `frontend/build/` prontos para deploy estático em qualquer servidor (Vercel, Netlify, GitHub Pages, S3, etc.).
+Forma direta (sem Python):
+```bash
+cd frontend
+yarn build                       # gera arquivos otimizados em frontend/build/
+```
 
-> 🚀 **Para publicar o site online:** veja [`docs/DEPLOY.md`](./docs/DEPLOY.md) — o projeto já vem com **deploy automático para GitHub Pages** configurado via GitHub Actions.
+> 🚀 **Para publicar o site online:** veja [`documentation/DEPLOY.md`](./documentation/DEPLOY.md) — o projeto suporta **3 caminhos**: GitHub Pages (Actions ou via `app.py pages`), hospedagem com Python (Railway/Render) ou serviços de static hosting (Vercel/Netlify).
 
 ---
 
@@ -103,35 +135,43 @@ Basta editar esse arquivo e **todas as seções do site são atualizadas automat
 ```
 MariLagesSite/
 ├── README.md                    👈 Você está aqui
-├── docs/                         Documentação técnica detalhada
-│   ├── ARCHITECTURE.md           Arquitetura, decisões e fluxos
-│   ├── COMPONENTS.md             Doc de cada componente
-│   └── CONFIGURATION.md          Tailwind, craco, fontes, paleta
+├── app.py                       🐍 Bootstrap: verifica, builda e serve o site
+├── Procfile                     Config p/ Railway/Render/Heroku (web: python app.py serve)
+├── requirements.txt             Sem dependências (apenas stdlib do Python)
+├── .python-version              Versão do Python para cloud (3.11)
+├── .github/workflows/
+│   └── deploy.yml               Deploy automático no GitHub Pages
+├── documentation/               📚 Documentação técnica detalhada
+│   ├── ARCHITECTURE.md
+│   ├── COMPONENTS.md
+│   ├── CONFIGURATION.md
+│   └── DEPLOY.md
+├── docs/                        🌐 Build do site p/ GitHub Pages (gerado por `app.py pages`)
 └── frontend/
     ├── public/
-    │   ├── index.html            HTML base + tags <head>
-    │   └── …                     favicon, manifest, assets estáticos
+    │   ├── index.html           HTML base + tags <head>
+    │   └── .nojekyll            Evita conflito com Jekyll no GitHub Pages
     ├── src/
-    │   ├── index.js              Entrada do React
-    │   ├── index.css             Tailwind base + variáveis globais
-    │   ├── App.js                Composição das seções da página
-    │   ├── App.css               Estilos globais (fontes, scroll smooth)
+    │   ├── index.js             Entrada do React
+    │   ├── index.css            Tailwind base + variáveis globais
+    │   ├── App.js               Composição das seções da página
+    │   ├── App.css              Estilos globais (fontes, scroll smooth)
     │   ├── lib/
-    │   │   └── contact.js        🔑 Fonte única de dados de contato
+    │   │   └── contact.js       🔑 Fonte única de dados de contato
     │   └── components/
-    │       ├── Header.jsx        Cabeçalho sticky + menu mobile
-    │       ├── Hero.jsx          Seção principal com CTA
-    │       ├── Products.jsx      Cards de produtos
-    │       ├── Gallery.jsx       Carrossel de imagens
-    │       ├── Contact.jsx       Composição da seção contato
-    │       ├── ContactInfo.jsx   Lado esquerdo (telefone/email/etc)
-    │       ├── ContactForm.jsx   Formulário que envia via WhatsApp
-    │       ├── Footer.jsx        Rodapé
+    │       ├── Header.jsx       Cabeçalho sticky + menu mobile
+    │       ├── Hero.jsx         Seção principal com CTA
+    │       ├── Products.jsx     Cards de produtos
+    │       ├── Gallery.jsx      Carrossel de imagens
+    │       ├── Contact.jsx      Composição da seção contato
+    │       ├── ContactInfo.jsx  Lado esquerdo (telefone/email/etc)
+    │       ├── ContactForm.jsx  Formulário que envia via WhatsApp
+    │       ├── Footer.jsx       Rodapé
     │       └── WhatsAppFloat.jsx Botão flutuante fixo
-    ├── package.json              Dependências e scripts
-    ├── tailwind.config.js        Tema Tailwind
-    ├── craco.config.js           Overrides do CRA (aliases @/)
-    └── postcss.config.js         PostCSS + Tailwind plugin
+    ├── package.json             Dependências e scripts
+    ├── tailwind.config.js       Tema Tailwind
+    ├── craco.config.js          Overrides do CRA (aliases @/)
+    └── postcss.config.js        PostCSS + Tailwind plugin
 ```
 
 ---
@@ -158,12 +198,12 @@ https://wa.me/5561982480654?text=<mensagem-encoded>
 
 ## 📚 Documentação completa
 
-Para detalhes técnicos consulte a pasta [`docs/`](./docs/):
+Para detalhes técnicos consulte a pasta [`documentation/`](./documentation/):
 
-- **[Deploy](./docs/DEPLOY.md)** — 🚀 como publicar o site (GitHub Pages, Vercel, Netlify, Cloudflare)
-- **[Arquitetura](./docs/ARCHITECTURE.md)** — visão geral, fluxo de dados e decisões de design
-- **[Componentes](./docs/COMPONENTS.md)** — responsabilidades, props e `data-testid`s
-- **[Configuração](./docs/CONFIGURATION.md)** — Tailwind, craco, paleta, fontes e env
+- **[Deploy](./documentation/DEPLOY.md)** — 🚀 como publicar o site (GitHub Pages, Vercel, Netlify, Cloudflare, Railway/Render)
+- **[Arquitetura](./documentation/ARCHITECTURE.md)** — visão geral, fluxo de dados e decisões de design
+- **[Componentes](./documentation/COMPONENTS.md)** — responsabilidades, props e `data-testid`s
+- **[Configuração](./documentation/CONFIGURATION.md)** — Tailwind, craco, paleta, fontes e env
 
 ---
 
